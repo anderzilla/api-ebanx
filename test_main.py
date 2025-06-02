@@ -6,7 +6,7 @@ client = TestClient(app)
 def test_reset():
     response = client.post("/reset")
     assert response.status_code == 200
-    assert response.content == b""
+    assert response.text == "OK"
 
 def test_get_balance_non_existing_account():
     client.post("/reset")
@@ -14,7 +14,7 @@ def test_get_balance_non_existing_account():
     assert response.status_code == 404
     assert response.text == "0"
 
-def test_create_account_with_deposit():
+def test_create_account_with_initial_balance():
     client.post("/reset")
     response = client.post("/event", json={"type": "deposit", "destination": "100", "amount": 10})
     assert response.status_code == 201
