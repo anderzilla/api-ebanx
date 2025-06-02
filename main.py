@@ -9,7 +9,7 @@ service = AccountService()
 @app.post("/reset")
 def reset():
     service.reset()
-    return Response(status_code=200)
+    return Response(status_code=200, content="", media_type="text/plain")
 
 @app.get("/balance")
 def get_balance(account_id: str):
