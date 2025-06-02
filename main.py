@@ -12,7 +12,7 @@ def reset() -> Response:
     Retorna: 200 OK com corpo vazio (text/plain)
     """
     service.reset()
-    return Response(status_code=200, content="", media_type="text/plain")
+    return Response(status_code=200, content="OK", media_type="text/plain")
 
 @app.get("/balance")
 def get_balance(account_id: str) -> Response:
