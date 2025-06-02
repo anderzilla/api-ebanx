@@ -13,22 +13,22 @@ class AccountService:
     def handle_event(self, event: Event):
         if event.type == "deposit":
             self.accounts[event.destination] = self.accounts.get(event.destination, 0) + event.amount
-            return {"destination": {"id": event.destination, "balance": self.accounts[event.destination]}}
+            return {"destination": {"id": event.destination, "balance": self.accounts[event.destination]}}, 201
 
         elif event.type == "withdraw":
             if event.origin not in self.accounts:
-                return None
+                return None, 404
             self.accounts[event.origin] -= event.amount
-            return {"origin": {"id": event.origin, "balance": self.accounts[event.origin]}}
+            return {"origin": {"id": event.origin, "balance": self.accounts[event.origin]}}, 201
 
         elif event.type == "transfer":
             if event.origin not in self.accounts:
-                return None
+                return None, 404
             self.accounts[event.origin] -= event.amount
             self.accounts[event.destination] = self.accounts.get(event.destination, 0) + event.amount
             return {
                 "origin": {"id": event.origin, "balance": self.accounts[event.origin]},
-                "destination": {"id": event.destination, "balance": self.accounts[event.destination]},
-            }
+                "destination": {"id": event.destination, "balance": self.accounts[event.destination]}
+            }, 201
 
-        return None
+        return None, 404
